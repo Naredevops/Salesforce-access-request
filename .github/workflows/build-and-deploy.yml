@@ -1,0 +1,35 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build HTML document (replace with your build command)
+      run: |
+        # Your build command goes here
+        # For example, if you're using a static site generator like Hugo:
+        # hugo --minify
+        # Replace this with your actual build command
+
+    - name: Deploy to GitHub Pages
+      run: |
+        # Assuming the HTML document is in the root folder and you want to deploy to the "gh-pages" branch
+        git config user.name "${{ github.actor }}"
+        git config user.email "${{ github.actor }}@users.noreply.github.com"
+        git add .
+        git commit -m "Deploy HTML document to GitHub Pages"
+        git push --force "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:gh-pages
+
+    - name: Print URL
+      run: |
+        # Print the URL to the deployed HTML document
+        echo "Web URL: https://${{ github.actor }}.github.io/${{ github.repository }}/html-document.html"
